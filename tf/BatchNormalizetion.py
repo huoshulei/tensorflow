@@ -1,3 +1,6 @@
+"""
+https://github.com/MorvanZhou/tutorials/blob/master/tensorflowTUT/tf23_BN/tf23_BN.py
+"""
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -103,4 +106,3 @@ y_data = np.square(x_data) - 5 + noise
 
 plt.scatter(x_data, y_data, s=1, c='r')
 plt.show()
-
