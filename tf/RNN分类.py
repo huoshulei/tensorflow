@@ -3,8 +3,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
-lr = 0.001
-training_iters = 99999
+lr = 0.00001
+training_iters = 9999999
 batch_size = 128
 
 n_inputs = 28  # 行输入数据
