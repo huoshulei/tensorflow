@@ -60,7 +60,7 @@ train = tf.train.AdamOptimizer(0.0001).minimize(loss)
 
 with tf.Session() as sess:
     sess.run(tf.initialize_all_variables())
-    for i in range(999):
+    for i in range(99999):
         batch_xs, batch_ys = mnist.train.next_batch(100)
         sess.run(train, feed_dict={xs: batch_xs, ys: batch_ys, keep_prob: 0.5})
         if not i % 33:
