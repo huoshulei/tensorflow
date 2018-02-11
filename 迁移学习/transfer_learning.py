@@ -153,5 +153,36 @@ class Vgg16:
         saver.save(self.sess, path, write_meta_graph=False)
 
 
+def train():
+    tigers_x, cats_x, tigers_y, cats_y = load_data()
+    plt.hist(tigers_y, bins=20, label='Tigers')
+    plt.hist(cats_y, bins=10, label='Cats')
+    plt.legend()
+    plt.xlabel('length')
+    plt.show()
+
+    xs = np.concatenate(tigers_x + cats_x, axis=0)
+    ys = np.concatenate((tigers_y, cats_y), axis=0)
+
+    vgg = Vgg16(vgg16_npy_path='./for_transfer_learning/vgg16.npy')
+
+    print('Net build')
+    for i in range(100):
+        b_idx = np.random.randint(0, len(xs), 20)
+        train_loss = vgg.train(xs[b_idx], ys[b_idx])
+        print(i, 'train loss ', train_loss)
+
+    vgg.save('./for_transfer_learning/model/transfer_learn')
+
+
+def eval():
+    vgg = Vgg16(vgg16_npy_path='./for_transfer_learning/vgg16.npy',
+                restore_path='./for_transfer_learning/model/transfer_learn')
+    vgg.predict(['.for_transfer_leaning/data/kittycat/000129037.jpg',
+                 './for_transfer_learning/data/tiger/39412.jpg'])
+
+
 if __name__ == '__main__':
     download()
+    # train()
+    # eval()
