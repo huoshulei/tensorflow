@@ -36,23 +36,19 @@ def download():
 
 def load_img(path):
     img = skimage.io.imread(path)
-    print('图片img.shape：', img.shape)
     img = img / 255.
-    print('图片img.shape/225.：', img.shape)
     short_edge = min(img.shape[:2])  # 根据中心裁剪图片
     yy = int((img.shape[0] - short_edge) / 2)
     xx = int((img.shape[1] - short_edge) / 2)
     crop_img = img[yy:yy + short_edge, xx:xx + short_edge]
-    print('图片crop_img.shape：', crop_img.shape)
     resized_img = skimage.transform.resize(crop_img, (224, 224))[None, :, :, :]
-    print('图片resized_img.shape：', resized_img.shape)
     return resized_img
 
 
 def load_data():
     imgs = {'tiger': [], 'kittycat': []}
     for k in imgs.keys():
-        dir = '.for_transfer_learning/data/' + k
+        dir = './for_transfer_learning/data/' + k
         for file in os.listdir(dir):
             if not file.lower().endswith('.jpg'):
                 continue
@@ -143,7 +139,7 @@ class Vgg16:
             x = load_img(path)
             length = self.sess.run(self.out, {self.tfx: x})
             axs[i].imshow(x[0])
-            axs[i].set_title('Len:[:<.2f]cm'.format(length))
+            axs[i].set_title('Len:{:<.2f}cm'.format(length[0][0]))
             axs[i].set_xticks(())
             axs[i].set_xticks(())
         plt.show()
@@ -178,11 +174,11 @@ def train():
 def eval():
     vgg = Vgg16(vgg16_npy_path='./for_transfer_learning/vgg16.npy',
                 restore_path='./for_transfer_learning/model/transfer_learn')
-    vgg.predict(['.for_transfer_leaning/data/kittycat/000129037.jpg',
-                 './for_transfer_learning/data/tiger/39412.jpg'])
+    vgg.predict(['./for_transfer_learning/data/kittycat/000129037.jpg',
+                 './for_transfer_learning/data/tiger/391412.jpg'])
 
 
 if __name__ == '__main__':
-    download()
+    # download()
     # train()
-    # eval()
+    eval()
