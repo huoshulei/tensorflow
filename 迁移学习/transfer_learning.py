@@ -141,7 +141,7 @@ class Vgg16:
             axs[i].imshow(x[0])
             axs[i].set_title('Len:{:<.2f}cm'.format(length[0][0]))
             axs[i].set_xticks(())
-            axs[i].set_xticks(())
+            axs[i].set_yticks(())
         plt.show()
 
     def save(self, path='./for_transfer_learning/model/transfer_learn'):
@@ -163,7 +163,7 @@ def train():
     vgg = Vgg16(vgg16_npy_path='./for_transfer_learning/vgg16.npy')
 
     print('Net build')
-    for i in range(100):
+    for i in range(99):
         b_idx = np.random.randint(0, len(xs), 20)
         train_loss = vgg.train(xs[b_idx], ys[b_idx])
         print(i, 'train loss ', train_loss)
@@ -174,8 +174,8 @@ def train():
 def eval():
     vgg = Vgg16(vgg16_npy_path='./for_transfer_learning/vgg16.npy',
                 restore_path='./for_transfer_learning/model/transfer_learn')
-    vgg.predict(['./for_transfer_learning/data/kittycat/000129037.jpg',
-                 './for_transfer_learning/data/tiger/391412.jpg'])
+    vgg.predict(['./for_transfer_learning/data/kittycat/321290440_b807a65570.jpg',
+                 './for_transfer_learning/data/tiger/2236557600_04d0b7197f.jpg'])
 
 
 if __name__ == '__main__':
