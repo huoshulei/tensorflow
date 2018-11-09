@@ -8,7 +8,7 @@ real_params = [1.2, 2.5]
 init_params = [[5, 4],
                [5, 1],
                [2, 4.5],
-               [-0.3,4.6]][3]
+               [-0.3, 4.6]][3]
 
 x = np.linspace(-1, 1, 555, dtype=np.float32)
 
@@ -40,9 +40,10 @@ with tf.Session() as sess:
         if not i % 33:
             print('a={:<.6f},b={:<.6f}'.format(a_, b_))
 
-    plt.figure(1)
-    plt.scatter(x, y, s=1, c='b')
-    plt.plot(x, result, 'r-', lw=2)
+        plt.figure(1)
+        plt.scatter(x, y, s=1, c='b')
+        plt.plot(x, result, 'r-', lw=2)
+        # plt.pause(0.05)
 
     fig = plt.figure(2)
     ax = Axes3D(fig)

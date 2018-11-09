@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 DNA_SIZE = 1
-DNA_BOUND = [0, 50]  # 取值范围
+DNA_BOUND = [0, 10]  # 取值范围
 N_GENERATIONS = 200  # 进化代数
 POP_SIZE = 100  # 种群数量
 N_KID = 50  # 每一代 繁衍数量
@@ -24,8 +24,8 @@ def make_kid(pop, n_kid):
         kv[~cp] = pop['DNA'][p2, ~cp]
         ks[cp] = pop['mut_strength'][p1, cp]
         ks[~cp] = pop['mut_strength'][p2, ~cp]
-        print(kv,ks,cp)
-        ks[:] = np.maximum(ks + 5*(np.random.rand(*ks.shape) - .5), 0.)
+
+        ks[:] = np.maximum(ks + 5 * (np.random.rand(*ks.shape) - .5), 0.)
         kv += ks * np.random.randn(*kv.shape)
         kv[:] = np.clip(kv, *DNA_BOUND)
     return kids
@@ -33,7 +33,7 @@ def make_kid(pop, n_kid):
 
 def kill_bad(pop, kids):
     for key in ['DNA', 'mut_strength']:
-        pop[key] = np.vstack((pop[key], kids[key]))
+        pop[key] = np.vstack((pop[key], kids[key]))  # 合并
     fitness = get_fitness(F(pop['DNA']))
     idx = np.arange(pop['DNA'].shape[0])
     good_idx = idx[fitness.argsort()][-POP_SIZE:]
@@ -42,7 +42,7 @@ def kill_bad(pop, kids):
     return pop
 
 
-pop = dict(DNA= np.random.rand(POP_SIZE, DNA_SIZE),
+pop = dict(DNA=np.random.rand(POP_SIZE, DNA_SIZE),
            mut_strength=np.random.rand(POP_SIZE, DNA_SIZE))
 
 plt.ion()

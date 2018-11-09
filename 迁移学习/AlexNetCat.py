@@ -72,6 +72,7 @@ class AlexNet(object):
             'out': tf.Variable(tf.random_normal([2]), dtype=tf.float32, name='b_out')
 
         }
+
         conv1 = self.conv2d('conv1', bgr, w=weights['wc1'], b=biases['bc1'])
         pool1 = self.max_pool('pool1', conv1)  # 122*122
         norm1 = self.norm('norm1', pool1)
@@ -118,7 +119,7 @@ class AlexNet(object):
             # self.loss = tf.losses.mean_squared_error(labels=self.y, predictions=self.out)
             self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=self.y, logits=self.out))
             # self.train_op = tf.train.RMSPropOptimizer(.0001).minimize(self.loss)
-            self.train_op = tf.train.AdamOptimizer(.0005).minimize(self.loss)
+            self.train_op = tf.train.AdamOptimizer(.01).minimize(self.loss)
             try:
                 saver = tf.train.Saver()
                 saver.restore(self.sess, './for_transfer_learning/model/transfer_kitty')
@@ -181,10 +182,10 @@ def train():
     y = np.concatenate((tiger_y, cat_y), axis=0)
     net = AlexNet(keep_prod=.5)
     for i in range(331):
-        idx = np.random.randint(0, len(x), 128)
+        idx = np.random.randint(0, len(x), 32)
         loss = net.train(x[idx], y[idx])
         print(i, 'Loss:{:>.6f}'.format(loss))
-        if not i % 33:
+        if not i % 10:
             net.save()
 
 
@@ -196,5 +197,5 @@ def eval():
 
 
 if __name__ == '__main__':
-    # train()
-    eval()
+    train()
+    # eval()
