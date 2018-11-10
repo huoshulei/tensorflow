@@ -36,7 +36,7 @@ def orc(im):
         json_str = response.text
         # print(json_str)
         data = json.loads(json_str)
-        print(repr(data))
+        # print(repr(data))
         dics = data['prism_wordsInfo']
         # print(type(dics))
         # 图片文本
