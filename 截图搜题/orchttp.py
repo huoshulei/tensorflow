@@ -42,7 +42,7 @@ def orc(im):
         # 图片文本
         q = ''
         for i in dics:
-            if (i['prob'] > 80):
+            if i['prob'] > 90:
                 q = q + i['word'] + ' '
         print(q)
         os.system('echo {}| clip'.format(q))
