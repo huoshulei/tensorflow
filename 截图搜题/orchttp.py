@@ -32,16 +32,17 @@ def orc(im):
         im = f.read()
         byte64 = base64.b64encode(im)
         s = str(byte64, encoding='utf-8')
-        response = requests.post(url, json={'img': s, 'prob': False}, headers=headers)
+        response = requests.post(url, json={'img': s, 'prob': True}, headers=headers)
         json_str = response.text
         # print(json_str)
         data = json.loads(json_str)
-        # print(repr(data))
+        print(repr(data))
         dics = data['prism_wordsInfo']
         # print(type(dics))
         # 图片文本
         q = ''
         for i in dics:
-            q = q + i['word']
+            if (i['prob'] > 80):
+                q = q + i['word'] + ' '
         print(q)
         os.system('echo {}| clip'.format(q))
